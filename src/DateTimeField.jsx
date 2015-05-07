@@ -56,8 +56,8 @@ DateTimeField = React.createClass({
       });
     }
   },
-  onChange: function(event) {
-    var value = event.target == null ? event : event.target.value;
+  onChange: function(e) {
+    var value = e.target == null ? e : e.target.value;
     if (moment(value, this.props.inputFormat, true).isValid()) {
       this.setState({
         selectedDate: moment(value, this.props.inputFormat, true),
@@ -68,7 +68,7 @@ DateTimeField = React.createClass({
     return this.setState({
       inputValue: value
     }, function() {
-      return this.props.onChange(moment(this.state.inputValue, this.props.inputFormat, true).format(this.props.format));
+      return this.props.onChange(moment(this.state.inputValue, this.props.inputFormat, true).format(this.props.format), e);
     });
 
   },
@@ -78,7 +78,7 @@ DateTimeField = React.createClass({
         selectedDate: this.state.viewDate.clone().date(parseInt(e.target.innerHTML)).hour(this.state.selectedDate.hours()).minute(this.state.selectedDate.minutes())
       }, function () {
         this.closePicker();
-        this.props.onChange(this.state.selectedDate.format(this.props.format));
+        this.props.onChange(this.state.selectedDate.format(this.props.format), e);
         return this.setState({
           inputValue: this.state.selectedDate.format(this.props.inputFormat)
         });
@@ -90,7 +90,7 @@ DateTimeField = React.createClass({
       selectedDate: this.state.selectedDate.clone().hour(parseInt(e.target.innerHTML)).minute(this.state.selectedDate.minutes())
     }, function() {
       this.closePicker();
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.state.selectedDate.format(this.props.format), e);
       return this.setState({
         inputValue: this.state.selectedDate.format(this.props.inputFormat)
       });
@@ -101,7 +101,7 @@ DateTimeField = React.createClass({
       selectedDate: this.state.selectedDate.clone().hour(this.state.selectedDate.hours()).minute(parseInt(e.target.innerHTML))
     }, function() {
       this.closePicker();
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.state.selectedDate.format(this.props.format), e);
       return this.setState({
         inputValue: this.state.selectedDate.format(this.props.inputFormat)
       });
@@ -117,21 +117,21 @@ DateTimeField = React.createClass({
       viewDate: this.state.viewDate.clone().year(year)
     });
   },
-  addMinute: function() {
+  addMinute: function(e) {
     return this.setState({
       selectedDate: this.state.selectedDate.clone().add(1, "minutes")
     }, function() {
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.state.selectedDate.format(this.props.format), e);
       return this.setState({
         inputValue: this.state.selectedDate.format(this.props.inputFormat)
       });
     });
   },
-  addHour: function() {
+  addHour: function(e) {
     return this.setState({
       selectedDate: this.state.selectedDate.clone().add(1, "hours")
     }, function() {
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.state.selectedDate.format(this.props.format), e);
       return this.setState({
         inputValue: this.state.selectedDate.format(this.props.inputFormat)
       });
@@ -152,21 +152,21 @@ DateTimeField = React.createClass({
       viewDate: this.state.viewDate.add(10, "years")
     });
   },
-  subtractMinute: function() {
+  subtractMinute: function(e) {
     return this.setState({
       selectedDate: this.state.selectedDate.clone().subtract(1, "minutes")
     }, function() {
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.state.selectedDate.format(this.props.format), e);
       return this.setState({
         inputValue: this.state.selectedDate.format(this.props.inputFormat)
       });
     });
   },
-  subtractHour: function() {
+  subtractHour: function(e) {
     return this.setState({
       selectedDate: this.state.selectedDate.clone().subtract(1, "hours")
     }, function() {
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.state.selectedDate.format(this.props.format), e);
       return this.setState({
         inputValue: this.state.selectedDate.format(this.props.inputFormat)
       });
@@ -187,11 +187,11 @@ DateTimeField = React.createClass({
       viewDate: this.state.viewDate.subtract(10, "years")
     });
   },
-  togglePeriod: function() {
+  togglePeriod: function(e) {
     if (this.state.selectedDate.hour() > 12) {
-      return this.onChange(this.state.selectedDate.clone().subtract(12, 'hours').format(this.props.inputFormat));
+      return this.onChange(this.state.selectedDate.clone().subtract(12, 'hours').format(this.props.inputFormat), e);
     } else {
-      return this.onChange(this.state.selectedDate.clone().add(12, 'hours').format(this.props.inputFormat));
+      return this.onChange(this.state.selectedDate.clone().add(12, 'hours').format(this.props.inputFormat), e);
     }
   },
   togglePicker: function() {
